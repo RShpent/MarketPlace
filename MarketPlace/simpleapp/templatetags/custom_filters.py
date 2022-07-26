@@ -11,7 +11,7 @@ CURRENCIES_SYMBOLS = {
 
 
 @register.filter()
-def currency (value, code='rub'):
+def currency(value, code='rub'):
 
     postfix = CURRENCIES_SYMBOLS[code]
     
