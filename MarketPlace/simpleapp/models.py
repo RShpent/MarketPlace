@@ -10,7 +10,7 @@ class Product(models.Model):
     )
     description = models.TextField()
     quantity = models.IntegerField(
-        validators=[MinValueValidator(0)],
+        validators=[MinValueValidator(0, 'Quantity should be >= 0')]
     )
     # поле категории будет ссылаться на модель категории
     category = models.ForeignKey(
@@ -23,7 +23,7 @@ class Product(models.Model):
     )
 
     def __str__(self):
-        return f'{self.name.title()}: {self.description[:20]}'
+        return f'{self.name} {self.quantity}'
 
 
 # Категория, к которой будет привязываться товар
@@ -32,4 +32,4 @@ class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
-        return self.name.title()
+        return f'{self.name}'
