@@ -3,8 +3,8 @@ from datetime import datetime
 # Импортируем класс, который говорит нам о том,
 # что в этом представлении мы будем выводить список объектов из БД
 from django.views.generic import ListView
-from django.core.paginator import Paginator
 from .models import Product
+from .filters import ProductFilter
 
 
 class ProductsList(ListView):
@@ -19,22 +19,11 @@ class ProductsList(ListView):
     # Его надо указать, чтобы обратиться к списку объектов в html-шаблоне.
     context_object_name = 'products'
     paginate_by = 1
-    #def get(self, request):
-    #    products = Product.objects.order_by('-price')
-    #    p = Paginator(products, 1)
-
-     #   products = p.get_page(request.GET.get('page', 1))
-
-      #  data = {
-       #     'products': products,
-        #}
-
-        #return render(request, 'products.html', data)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['time_now'] = datetime.utcnow()
-        context['next_sale'] = None
+        context['filter'] = ProductFilter(self.request.GET, queryset=self.get_queryset())
 
         return context
 # Create your views here.

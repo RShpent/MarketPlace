@@ -11,7 +11,10 @@ Products
 {% block content %}
    <h1>Все товары</h1>   
    <h3>{% current_time %}</h3>
-   <h3> {{ next_sale|default_if_none:"Чуть позже сообщим о распродаже!" }} </h3>
+   <form method="GET">
+       {{ filter.form }}
+       <input type="submit" value="Найти">
+   </form>
    <hr>
    {% if products %}
        <table>
@@ -23,7 +26,7 @@ Products
                <td>Количество</td>
            </tr>
 
-           {% for product in products %}
+           {% for product in filter.qs %}
            <tr>
                <td>{{ product.name }}</td>
                 <!-- Добавим специальный фильтр truncatechars,
@@ -43,7 +46,7 @@ Products
 
    {% if is_paginated %}
        {% if page_obj.has_previous %}
-           <a href="?page=1" allign="left">First</a>
+           <a href="?page=1">First</a>
            <a href="?page={{page_obj.previous_page_number}}"><<<</a>
        {% endif %}
 
